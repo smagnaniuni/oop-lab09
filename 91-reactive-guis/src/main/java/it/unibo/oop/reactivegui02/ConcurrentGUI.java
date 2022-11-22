@@ -51,10 +51,14 @@ public final class ConcurrentGUI extends JFrame {
         down.addActionListener((e) -> agent.setDown(true));
         stop.addActionListener((e) -> {
             agent.stopCounting();
-            up.setEnabled(false);
-            down.setEnabled(false);
-            stop.setEnabled(false);
+            disableButtons();
         });
+    }
+
+    private void disableButtons() {
+        up.setEnabled(false);
+        down.setEnabled(false);
+        stop.setEnabled(false);
     }
 
     private class Agent implements Runnable {
