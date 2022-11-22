@@ -62,7 +62,7 @@ public final class AnotherConcurrentGUI extends JFrame {
             try {
                 TimeUnit.SECONDS.sleep(RUN_SECONDS);
                 agent.stopCounting();
-                disableButtons();
+                SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.disableButtons());
             } catch (Exception e) {
                 e.printStackTrace();
             }
