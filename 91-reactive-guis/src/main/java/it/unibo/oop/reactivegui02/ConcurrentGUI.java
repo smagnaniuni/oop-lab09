@@ -2,6 +2,7 @@ package it.unibo.oop.reactivegui02;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +28,9 @@ public final class ConcurrentGUI extends JFrame {
     private final JButton down = new JButton(DOWN_NAME);
     private final JButton stop = new JButton(STOP_NAME);
 
+    /**
+     * Builds a new CGUI.
+     */
     public ConcurrentGUI() {
         super();
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -39,5 +43,56 @@ public final class ConcurrentGUI extends JFrame {
         panel.add(stop);
         this.getContentPane().add(panel);
         this.setVisible(true);
+
+        final Agent agent = new Agent();
+        new Thread(agent).start();
+
+        up.addActionListener((e) -> agent.setDown(false));
+        down.addActionListener((e) -> agent.setDown(true));
+        stop.addActionListener((e) -> {
+            agent.stopCounting();
+            up.setEnabled(false);
+            down.setEnabled(false);
+        });
+    }
+
+    private class Agent implements Runnable {
+        private static final long COUNT_MS = 100;
+        private volatile boolean stop = false;
+        private volatile boolean down = false;
+        private int counter = 0;
+
+        @Override
+        public void run() {
+            while (!this.stop) {
+                try {
+                    final var nextText = Integer.toString(this.counter);
+                    SwingUtilities.invokeAndWait(() -> ConcurrentGUI.this.display.setText(nextText));
+                    if (!this.down) {
+                        this.counter++;
+                    } else {
+                        this.counter--;
+                    }
+                    Thread.sleep(COUNT_MS);
+                } catch (InvocationTargetException | InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        /**
+         * External command to set counting direction.
+         * @param isDecrease set counter to decrease
+         */
+        public void setDown(final boolean isDecrease) {
+            this.down = isDecrease;
+        }
+
+        /**
+         * External command to stop counting.
+         */
+        public void stopCounting() {
+            this.stop = true;
+        }
     }
 }
