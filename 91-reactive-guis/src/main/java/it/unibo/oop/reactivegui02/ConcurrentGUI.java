@@ -63,9 +63,9 @@ public final class ConcurrentGUI extends JFrame {
 
     private class Agent implements Runnable {
         private static final long COUNT_MS = 100;
-        private volatile boolean stop = false;
-        private volatile boolean down = false;
-        private int counter = 0;
+        private volatile boolean stop;
+        private volatile boolean down;
+        private int counter;
 
         @Override
         public void run() {

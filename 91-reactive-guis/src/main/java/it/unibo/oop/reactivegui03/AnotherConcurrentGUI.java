@@ -63,8 +63,8 @@ public final class AnotherConcurrentGUI extends JFrame {
             try {
                 TimeUnit.SECONDS.sleep(RUN_SECONDS);
                 agent.stopCounting();
-                SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.disableButtons());
-            } catch (Exception e) {
+                SwingUtilities.invokeAndWait(() -> this.disableButtons());
+            } catch (InvocationTargetException | InterruptedException ex) {
                 ex.printStackTrace();   // NOPMD suppressed as it is an exercise
             }
         }).start();
@@ -78,9 +78,9 @@ public final class AnotherConcurrentGUI extends JFrame {
 
     private class Agent implements Runnable {
         private static final long COUNT_MS = 100;
-        private volatile boolean stop = false;
-        private volatile boolean down = false;
-        private int counter = 0;
+        private volatile boolean stop;
+        private volatile boolean down;
+        private int counter;
 
         @Override
         public void run() {
