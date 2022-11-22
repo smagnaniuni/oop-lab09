@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
  * Third experiment with reactive gui.
  */
 public final class AnotherConcurrentGUI extends JFrame {
-    
+
     private static final String UP_NAME = "up";
     private static final String DOWN_NAME = "down";
     private static final String STOP_NAME = "stop";
@@ -25,6 +25,7 @@ public final class AnotherConcurrentGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private static final double WIDTH_PERC = 0.2;
     private static final double HEIGHT_PERC = 0.1;
+    private static final long RUN_SECONDS = 10;
 
     private final JLabel display = new JLabel();
     private final JButton up = new JButton(UP_NAME);
@@ -54,10 +55,24 @@ public final class AnotherConcurrentGUI extends JFrame {
         down.addActionListener((e) -> agent.setDown(true));
         stop.addActionListener((e) -> {
             agent.stopCounting();
-            up.setEnabled(false);
-            down.setEnabled(false);
-            stop.setEnabled(false);
+            disableButtons();
         });
+
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(RUN_SECONDS);
+                agent.stopCounting();
+                disableButtons();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void disableButtons() {
+        up.setEnabled(false);
+        down.setEnabled(false);
+        stop.setEnabled(false);
     }
 
     private class Agent implements Runnable {
