@@ -34,6 +34,8 @@ public final class AnotherConcurrentGUI extends JFrame {
      * Builds a new CGUI.
      */
     public AnotherConcurrentGUI() {
+        // CPD-OFF
+        // Suppress CPD warning as indicated.
         super();
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize((int) (screenSize.getWidth() * WIDTH_PERC), (int) (screenSize.getHeight() * HEIGHT_PERC));
@@ -55,6 +57,7 @@ public final class AnotherConcurrentGUI extends JFrame {
             agent.stopCounting();
             disableButtons();
         });
+        // CPD-ON
 
         new Thread(() -> {
             try {
