@@ -65,7 +65,7 @@ public final class AnotherConcurrentGUI extends JFrame {
                 agent.stopCounting();
                 SwingUtilities.invokeAndWait(() -> AnotherConcurrentGUI.this.disableButtons());
             } catch (Exception e) {
-                e.printStackTrace();
+                ex.printStackTrace();   // NOPMD suppressed as it is an exercise
             }
         }).start();
     }
@@ -95,7 +95,7 @@ public final class AnotherConcurrentGUI extends JFrame {
                     }
                     Thread.sleep(COUNT_MS);
                 } catch (InvocationTargetException | InterruptedException ex) {
-                    ex.printStackTrace();
+                    ex.printStackTrace();   // NOPMD suppressed as it is an exercise
                 }
             }
         }

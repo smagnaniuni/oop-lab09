@@ -80,7 +80,7 @@ public final class ConcurrentGUI extends JFrame {
                     }
                     Thread.sleep(COUNT_MS);
                 } catch (InvocationTargetException | InterruptedException ex) {
-                    ex.printStackTrace();
+                    ex.printStackTrace();   // NOPMD suppressed as it is an exercise
                 }
             }
         }
