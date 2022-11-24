@@ -7,6 +7,8 @@ import java.util.List;
  * This is a standard implementation of the calculation.
  * 
  */
+// CPD-OFF
+// Suppressed as it is an example interfering with another example
 public final class MultiThreadedListSumClassic implements SumList {
 
     private final int nthread;
@@ -98,3 +100,4 @@ public final class MultiThreadedListSumClassic implements SumList {
         return sum;
     }
 }
+// CPD-ON
