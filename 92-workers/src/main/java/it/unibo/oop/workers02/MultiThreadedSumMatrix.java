@@ -20,20 +20,20 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
     }
 
     private static class Worker extends Thread {
-        private final double[] array;
+        private final double[] matrix1d;
         private final long startpos;
         private final long nelem;
         private double res;
 
         /**
          * 
-         * @param array
+         * @param matrix1d
          * @param startpos
          * @param nelem
          */
-        Worker(final double[] array, final long startpos, final long nelem) {
+        Worker(final double[] matrix1d, final long startpos, final long nelem) {
             super();
-            this.array = array.clone();
+            this.matrix1d = matrix1d.clone();
             this.startpos = startpos;
             this.nelem = nelem;
         }
@@ -42,7 +42,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         public void run() {
             System.out.println("Working from position " + startpos // NOPMD - suppressed as it is an exercise
                     + " to position " + (startpos + nelem - 1));
-            this.res = DoubleStream.of(array)
+            this.res = DoubleStream.of(matrix1d)
                     .skip(startpos)
                     .limit(nelem)
                     .sum();
@@ -60,15 +60,15 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
     @Override
     public double sum(final double[][] matrix) {
-        final var array = Stream.of(matrix)
+        final var matrix1d = Stream.of(matrix)
                 .filter(arr -> arr.length > 0)
                 .flatMapToDouble(arr -> DoubleStream.of(arr))
                 .toArray();
-        final long size = array.length % this.nThreads + array.length / this.nThreads;
+        final long size = matrix1d.length % this.nThreads + matrix1d.length / this.nThreads;
         return LongStream
                 .iterate(0, start -> start + size)
                 .limit(nThreads)
-                .mapToObj(start -> new Worker(array, start, size))
+                .mapToObj(start -> new Worker(matrix1d, start, size))
                 .peek(Thread::start)
                 .peek(MultiThreadedSumMatrix::joinThread)
                 .mapToDouble(Worker::getResult)
