@@ -73,8 +73,6 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
                 .peek(MultiThreadedSumMatrix::joinThread)
                 .mapToDouble(Worker::getResult)
                 .sum();
-        // System.out.println("Result: " + res);
-        return res;
     }
 
     private static void joinThread(final Thread thread) {
