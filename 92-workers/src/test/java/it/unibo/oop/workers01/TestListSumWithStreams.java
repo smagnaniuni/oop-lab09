@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  * TestMatrix for worker 1.
  *
  */
-public class TestListSumWithStreams {
+class TestListSumWithStreams {
 
     /**
      * SumList and its multithreaded implementation are given as reference
@@ -28,7 +28,7 @@ public class TestListSumWithStreams {
      * Base test for a multithreaded list sum.
      */
     @Test
-    public void testBasic() {
+    void testBasic() {
         final List<Integer> list = IntStream
                 .iterate(0, i -> i + 1)
                 .limit(SIZE)

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * TestMatrix for worker 2.
  *
  */
-public class TestMatrix {
+class TestMatrix {
 
     /*
      * Si fornisce l'interfaccia SumMatrix, con un metodo per calcolare la
@@ -37,7 +37,7 @@ public class TestMatrix {
      * Base test for a multithreaded matrix sum.
      */
     @Test
-    public void testBasic() {
+    void testBasic() {
         double sum = 0;
         final double[][] matrix = new double[SIZE][SIZE];
         for (double[] d : matrix) {

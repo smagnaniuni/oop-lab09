@@ -11,7 +11,7 @@ import java.util.List;
  * TestMatrix for worker 1.
  *
  */
-public class TestListSumClassic {
+class TestListSumClassic {
 
     /**
      * SumList and its multithreaded implementation are given as reference
@@ -27,7 +27,7 @@ public class TestListSumClassic {
      * Base test for a multithreaded list sum.
      */
     @Test
-    public void testBasic() {
+    void testBasic() {
         /*
          * Initialize a list
          */
