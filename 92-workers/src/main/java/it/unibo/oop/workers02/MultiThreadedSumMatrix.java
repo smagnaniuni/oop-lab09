@@ -2,7 +2,10 @@ package it.unibo.oop.workers02;
 
 public class MultiThreadedSumMatrix implements SumMatrix {
 
-    public MultiThreadedSumMatrix(int threads) {
+    private int nThreads;
+
+    public MultiThreadedSumMatrix(int nThreads) {
+        this.nThreads = nThreads;
     }
 
     @Override
