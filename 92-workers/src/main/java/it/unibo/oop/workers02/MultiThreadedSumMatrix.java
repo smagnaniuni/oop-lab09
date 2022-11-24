@@ -5,11 +5,11 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * Performs a multithread sum of a matrix
+ * Performs a multithread sum of a matrix.
  */
 public final class MultiThreadedSumMatrix implements SumMatrix {
 
-    private int nThreads;
+    private final int nThreads;
 
     /**
      * 
@@ -33,14 +33,15 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
          */
         Worker(final double[] array, final long startpos, final long nelem) {
             super();
-            this.array = array;
+            this.array = array.clone();
             this.startpos = startpos;
             this.nelem = nelem;
         }
 
         @Override
         public void run() {
-            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1));
+            System.out.println("Working from position " + startpos // NOPMD - suppressed as it is an exercise
+                    + " to position " + (startpos + nelem - 1));
             this.res = DoubleStream.of(array)
                     .skip(startpos)
                     .limit(nelem)
@@ -64,7 +65,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
                 .flatMapToDouble(arr -> DoubleStream.of(arr))
                 .toArray();
         final long size = array.length % this.nThreads + array.length / this.nThreads;
-        final var res = LongStream
+        return LongStream
                 .iterate(0, start -> start + size)
                 .limit(nThreads)
                 .mapToObj(start -> new Worker(array, start, size))
@@ -83,7 +84,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
                 thread.join();
                 joined = true;
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // NOPMD - suppressed as it is an exercise
             }
         }
     }
