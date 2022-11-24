@@ -50,7 +50,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
         /**
          * 
-         * @return
+         * @return the result of the sum
          */
         public double getResult() {
             return this.res;
