@@ -27,9 +27,9 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
         /**
          * 
-         * @param matrix1d
-         * @param startpos
-         * @param nelem
+         * @param matrix1d stream of the matrix
+         * @param startpos starting index
+         * @param nelem    number of elements to sum from the starting index
          */
         Worker(final DoubleStream matrix1d, final long startpos, final long nelem) {
             super();
