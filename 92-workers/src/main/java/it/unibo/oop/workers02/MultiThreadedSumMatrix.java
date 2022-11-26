@@ -40,7 +40,8 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
         @Override
         public void run() {
-            System.out.println("Working from position " + startpos // NOPMD - suppressed as it is an exercise
+            System.out.println(Thread.currentThread() // NOPMD - suppressed as it is an exercise
+                    + " Working from position " + startpos
                     + " to position " + (startpos + nelem - 1));
             this.res = matrix1d
                     .skip(startpos)
