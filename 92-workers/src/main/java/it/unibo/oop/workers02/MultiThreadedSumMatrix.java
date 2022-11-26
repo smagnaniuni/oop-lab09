@@ -20,7 +20,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
     }
 
     private static class Worker extends Thread {
-        private final double[] matrix1d;
+        private final DoubleStream matrix1d;
         private final long startpos;
         private final long nelem;
         private double res;
@@ -31,9 +31,9 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
          * @param startpos
          * @param nelem
          */
-        Worker(final double[] matrix1d, final long startpos, final long nelem) {
+        Worker(final DoubleStream matrix1d, final long startpos, final long nelem) {
             super();
-            this.matrix1d = matrix1d.clone();
+            this.matrix1d = matrix1d;
             this.startpos = startpos;
             this.nelem = nelem;
         }
@@ -42,7 +42,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         public void run() {
             System.out.println("Working from position " + startpos // NOPMD - suppressed as it is an exercise
                     + " to position " + (startpos + nelem - 1));
-            this.res = DoubleStream.of(matrix1d)
+            this.res = matrix1d
                     .skip(startpos)
                     .limit(nelem)
                     .sum();
@@ -68,7 +68,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
         return LongStream
                 .iterate(0, start -> start + size)
                 .limit(nThreads)
-                .mapToObj(start -> new Worker(matrix1d, start, size))
+                .mapToObj(start -> new Worker(DoubleStream.of(matrix1d), start, size))
                 .peek(Thread::start)
                 .peek(MultiThreadedSumMatrix::joinThread)
                 .mapToDouble(Worker::getResult)
